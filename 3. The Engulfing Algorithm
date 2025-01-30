@@ -1,0 +1,37 @@
+3. The Engulfing Algorithm
+Stock Screening :
+
+Scan for bullish/bearish engulfing patterns on 1H/4H timeframes.
+Filter with RSI(14) > 70 (bearish) or < 30 (bullish).
+Entry/Exit :
+Enter on close of engulfing candle + volume spike (>2× 20-day avg).
+Profit target = 1.5× candle height; stop-loss at pattern low/high.
+Risk Management :
+Fixed fractional sizing (2% per trade).
+Daily loss limit: 5%.
+ML Enhancement :
+Transformer model to score pattern validity using historical success rates.
+SHAP values to weight confirmation indicators (e.g., VWAP divergence).
+Deployment :
+Implement as AWS Lambda function triggered by TradingView webhooks.
+Backtest with walk-forward optimization on 10-year FX futures data.
+
+import talib
+
+def engulfing_pattern(data):
+    data['Engulfing'] = talib.CDLENGULFING(data['Open'], data['High'], data['Low'], data['Close'])
+    data['RSI'] = talib.RSI(data['Close'], timeperiod=14)
+
+    # Entry Signal
+    data['Signal'] = 0
+    data.loc[(data['Engulfing'] == 100) & (data['RSI'] < 30), 'Signal'] = 1  # Bullish Engulfing
+    data.loc[(data['Engulfing'] == -100) & (data['RSI'] > 70), 'Signal'] = -1  # Bearish Engulfing
+    return data
+
+# Example Usage
+data = pd.read_csv('stock_data.csv')
+processed_data = engulfing_pattern(data)
+
+Deployment
+Trigger Mechanism : Use AWS Lambda triggered by TradingView webhooks.
+Backtesting : Walk-forward optimization on historical FX futures data.
