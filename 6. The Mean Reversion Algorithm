@@ -1,0 +1,38 @@
+6. The Mean Reversion Algorithm
+Stock Screening :
+
+Identify oversold (RSI < 30)/overbought (RSI > 70) stocks.
+Filter using Z-score: (Price - 20d MA)/StdDev < -2.
+Entry/Exit :
+Enter when price touches lower Bollinger Band + positive divergence.
+Exit at median regression (50% retracement).
+Risk Management :
+Stop-loss at 1.5× StdDev from entry.
+Volatility-scaled lot sizes using VIX term structure.
+ML Enhancement :
+Bayesian structural time series to estimate regime probabilities.
+Attention mechanisms to weight multiple mean reversion signals.
+Deployment :
+Host on GCP with GPU-accelerated backtesting.
+Use Airflow for daily Z-score recomputation.
+
+from ta.momentum import RSIIndicator
+
+def mean_reversion_strategy(data):
+    rsi = RSIIndicator(close=data['Close'], window=14)
+    data['RSI'] = rsi.rsi()
+    data['ZScore'] = (data['Close'] - data['Close'].rolling(window=20).mean()) / data['Close'].rolling(window=20).std()
+
+    # Entry/Exit Signals
+    data['Signal'] = 0
+    data.loc[(data['ZScore'] < -2) & (data['RSI'] < 30), 'Signal'] = 1  # Oversold
+    data.loc[(data['ZScore'] > 2) & (data['RSI'] > 70), 'Signal'] = -1  # Overbought
+    return data
+
+# Example Usage
+data = pd.read_csv('stock_data.csv')
+processed_data = mean_reversion_strategy(data)
+
+Deployment
+Cloud : Host on GCP with GPU acceleration.
+Automation : Use Airflow for daily Z-score recomputation.
