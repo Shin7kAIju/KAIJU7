@@ -1,0 +1,40 @@
+2. Order Book Stalking Algorithm
+Stock Screening :
+
+Focus on S&P 500 stocks with bid-ask spread < 0.05% (high liquidity).
+Monitor Level 2 data for iceberg orders using volume clustering detection.
+Entry/Exit :
+Detect hidden orders via order flow imbalance (OFI) calculations.
+Front-run large orders using Bayesian change-point detection.
+Risk Management :
+Microsecond-level circuit breaker if adverse selection > 0.1%.
+Maximum inventory holding time: 5 minutes.
+ML Enhancement :
+CNN to classify order book heatmaps for toxic vs. benign flow.
+Reinforcement Learning for optimal bid-ask placement.
+Deployment :
+Colocate servers in NY4/NASDAQ data centers.
+Use FPGA acceleration for order book parsing.
+
+from scipy.stats import bayes_mvs
+import numpy as np
+
+def detect_hidden_orders(order_book):
+    bids = np.array([order[1] for order in order_book['bids']])
+    asks = np.array([order[1] for order in order_book['asks']])
+
+    # Bayesian Change Point Detection
+    bid_mean, _, _ = bayes_mvs(bids, alpha=0.95)
+    ask_mean, _, _ = bayes_mvs(asks, alpha=0.95)
+
+    if abs(bid_mean.statistic - ask_mean.statistic) > threshold:
+        return "Hidden Order Detected"
+    return "No Hidden Order"
+
+# Example Usage
+order_book = {'bids': [[price, volume]], 'asks': [[price, volume]]}  # Replace with real data
+result = detect_hidden_orders(order_book)
+
+Deployment
+Colocation : Place servers in NY4/NASDAQ data centers.
+Hardware Acceleration : Use FPGA for ultra-low latency.
