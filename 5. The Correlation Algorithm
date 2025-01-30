@@ -1,0 +1,37 @@
+5. The Correlation Algorithm
+Stock Screening :
+
+Find pairs with 1-year rolling correlation > 0.85 (energy sector, FX crosses).
+Validate cointegration via Engle-Granger test (p < 0.05).
+Entry/Exit :
+Enter when z-score of spread > 2σ; exit at mean reversion.
+Stop-loss at 3.5σ with Kalman filter adaptation.
+Risk Management :
+Half-life decay factor for dynamic position sizing.
+Black-Litterman model for portfolio constraints.
+ML Enhancement :
+Graph Neural Networks to map cross-asset correlation clusters.
+Federated learning to update correlation matrices across brokers.
+Deployment :
+Deploy correlation matrix updates via Apache Kafka streams.
+Use Qdrant vector DB for fast similarity searches.
+
+from statsmodels.tsa.stattools import coint
+import numpy as np
+
+def pairs_trading(stock1, stock2):
+    score, pvalue, _ = coint(stock1['Close'], stock2['Close'])
+    if pvalue < 0.05:  # Cointegrated
+        spread = stock1['Close'] - stock2['Close']
+        zscore = (spread - spread.mean()) / spread.std()
+        return zscore
+    return None
+
+# Example Usage
+stock1 = pd.read_csv('stock1.csv')
+stock2 = pd.read_csv('stock2.csv')
+zscore = pairs_trading(stock1, stock2)
+
+Deployment
+Streaming : Use Apache Kafka for correlation matrix updates.
+Search : Qdrant vector DB for fast similarity searches.
