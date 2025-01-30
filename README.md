@@ -1,4 +1,5 @@
-![image](https://github.com/user-attachments/assets/9d646bad-d3ee-4bb6-ac6a-f1d57bc0c43b)
+![Uploading image.png…]()
+
 
 
 # **Kaiju Capital: Trading Algos**
