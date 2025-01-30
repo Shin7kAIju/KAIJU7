@@ -72,3 +72,12 @@ https://medium.com/@redsword_23261/atr-based-multi-trend-following-strategy-with
 
 ATR-Based Multi-Trend Following Strategy with Take-Profit and Stop
 The core strategy is based on dynamic ATR calculations, using a period parameter (default 10) to compute market
+
+
+10.
+https://medium.com/the-modern-scientist/unlocking-the-power-of-long-short-term-memory-lstm-with-time-series-sequences-bb6bc2cd5aa5
+·
+(2024-11-07)
+
+Unlocking the Power of Long Short-Term Memory (LSTM) with Time
+Long Short-Term Memory (LSTM) networks, known for their ability to model sequential data, are promising tools for analyzing time-series data in this doma
