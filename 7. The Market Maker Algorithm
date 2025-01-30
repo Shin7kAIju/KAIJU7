@@ -1,0 +1,31 @@
+7. The Market Maker Algorithm
+Stock Screening :
+
+Select top 100 SPY components by ADV (Average Daily Volume).
+Filter for tight spreads (< 3bps) and low adverse selection risk.
+Pricing :
+Bid-ask spread = 1.5× realized volatility + inventory skew.
+Hedge delta exposure using E-mini futures.
+Risk Management :
+Maximum net gamma exposure: ±$50k per stock.
+Fat-tailed Value-at-Risk (VaR) model with EVT (Extreme Value Theory).
+ML Enhancement :
+Deep Reinforcement Learning for optimal inventory control.
+GARCH models for volatility forecasting in spread calculation.
+Deployment :
+Bare-metal servers with Solarflare NICs for kernel bypass.
+FIX/ITCH protocol handlers for direct exchange connectivity.
+
+def market_maker_pricing(order_book, realized_volatility):
+    spread = 1.5 * realized_volatility
+    bid = order_book['mid_price'] - spread / 2
+    ask = order_book['mid_price'] + spread / 2
+    return bid, ask
+
+# Example Usage
+order_book = {'mid_price': 100, 'realized_volatility': 0.01}
+bid, ask = market_maker_pricing(order_book, order_book['realized_volatility'])
+
+Deployment
+Hardware : Bare-metal servers with Solarflare NICs.
+Protocol : FIX/ITCH handlers for direct exchange connectivity.
